@@ -1,0 +1,184 @@
+EXPLICACION PUNTOS 2, 4 Y 5 + PROMPTS DE IA
+
+
+PUNTO 2
+¿Cumplen con sus funciones “básicas”? 
+Cada uno de los controller, service, repository y models cumplen con lo que vendría a 
+ser su función “original”. Los controller reciben las peticiones del cliente (HTTP), 
+manejan GET, POST, PUT, DELETE, llaman al service para que haga el trabajo y 
+devuelven la respuesta. Los service contienen la lógica del programa, deciden qué 
+hacer con los datos y usan los repositories para acceder a la base de datos. Tiene 
+“funciones” como calcular promedio, validar algo, etc. Los repository se comunican 
+con la base de datos y hacen consultas (guardar, buscar, borrar). Puede usar ciertos 
+metodos como “findById(), save() y delete()”. Y, por último, los models representan las 
+tablas de la base de datos con los respectivos atributos de las tablas. 
+
+¿Cumplen las funcionalidades dadas en el TP? 
+Lo que se hizo para probar que funcione cada funcionalidad dada por el profesor fue, 
+primero buscar el “controller” y ver su ruta (@GetMapping, @PostMapping). Luego, ver 
+que llame a un service, ver que el service use un repository y, por último, comprobar la 
+ruta utilizando Postman. 
+
+a. Registro de Usuarios. 
+La ruta pedida fue: POST /api/usuarios. 
+Busqué en UsuarioController y encontré “@RequestMapping("/api/usuarios")” y 
+llama al service “return service.registrarUsuario(usuario)”. Además, el service 
+hace “usuarioRepository.save()” por lo que este punto cumple con su 
+funcionalidad. 
+
+b. Consulta del contenido del museo. 
+La ruta pedida fue: GET /api/home. 
+Busqué en HomeController y encontré “@RequestMapping("/api/home")” junto con 
+“@GetMapping”. El método devuelve la información del museo mediante 
+“homeService.obtenerHome()”. Este service se encarga de armar el HomeDTO con la 
+información correspondiente del museo. Por lo tanto, este punto cumple con su 
+funcionalidad. 
+
+c. Consultar que hay en cada piso. 
+La ruta pedida fue: GET /api/pisos. 
+Busqué en PisoController y encontré “@RequestMapping("/api/pisos")” junto con 
+“@GetMapping”. El método llama al service mediante “pisoService.obtenerTodos()”, 
+el cual obtiene la lista de pisos desde el repositorio correspondiente. Por lo tanto, este 
+punto cumple con su funcionalidad.
+
+d. Ver eventos especiales del museo. 
+La ruta pedida fue: GET /api/eventos. 
+Busqué en EventoController y encontré “@RequestMapping("/api/eventos")” junto 
+con “@GetMapping”. El método “listarEventos()” llama al service mediante 
+“eventoService.obtenerTodos()”, que recupera los eventos desde la base de datos. 
+Por lo tanto, este punto cumple con su funcionalidad. 
+
+e. Sacar ticket para visita. 
+La ruta pedida fue: POST /api/tickets/reservar. 
+Busqué en TicketController y encontré “@RequestMapping("/api/tickets")” junto con 
+“@PostMapping("/reservar/{idInfoMuseo}/{idEvento}")”. Esto significa que la ruta 
+implementada es “POST /api/tickets/reservar/{idInfoMuseo}/{idEvento}”. El método 
+obtiene el usuario, la información del museo y el evento mediante 
+“usuarioService.obtenerPorId()”, “homeService.obtenerPorId()” y 
+“eventoService.obtenerPorId()”. Luego crea un objeto Ticket y lo guarda mediante 
+“ticketService.reservar(ticket)”. Lo que sucede en este punto es que la funcionalidad 
+sí está implementada correctamente, pero la ruta no es la pedida. 
+
+f. Obtener top 10 obras más valoradas en fechas dadas. 
+La ruta pedida fue: GET /api/estadisticas/top-obras?desde=YYYY-MMDD&hasta=YYYY-MM-DD. 
+Busqué en EstadisticaController y encontré “@RequestMapping("/api/estadisticas")” 
+junto con “@GetMapping("/top-obras")”. El método recibe los parámetros desde y 
+hasta, luego llama al repositorio mediante “estadisticaRepository.obtenerTopObras()” 
+y convierte los resultados en objetos “TopObraDto”. Así que, este punto cumple con 
+su funcionalidad. 
+
+g. Filtrar obras. 
+La ruta pedida fue: GET 
+/api/obras?ubicacion=x&epoca=y&nombre=z&popularidad=alta. 
+Busqué en “ObraController” y encontré “@RequestMapping("/api/obras")” junto con 
+“@GetMapping”. El método recibe los filtros mediante “@RequestParam” y luego 
+llama al service mediante “obraService.filtrar(ubicacion, epoca, nombre, 
+popularidad)”, que se encarga de aplicar los filtros utilizando el repositorio 
+correspondiente. Por lo tanto, este punto cumple con su funcionalidad. 
+
+h. Votar obras tras la visita. 
+La ruta pedida fue: POST /api/obras/{id}/votar. 
+Busqué en ObraController y encontré “@PostMapping("/{id}/votar")”. El método 
+recibe el id de la obra mediante “@PathVariable” y los datos del voto mediante 
+“VotoRequest”. Luego llama al service mediante “valoracionesService.votarObra(id, 
+body.getIdUsuario(), body.getPuntaje(), body.getComentario())”, el cual guarda la 
+valoración correspondiente en la base de datos. Entonces, este punto cumple con su 
+funcionalidad.
+ 
+4) Se revisaron los endpoints del sistema para identificar aquellos que estaban devolviendo directamente las entidades del modelo. Esto no es una buena práctica, ya que las entidades pueden incluir más información de la necesaria o incluso relaciones con otras tablas de la base de datos que el cliente no necesita recibir. Para solucionar esto se implementaron DTOs (Data Transfer Objects), que permiten enviar únicamente los datos relevantes al cliente.
+En el caso del endpoint GET /api/obras, originalmente el método del controller devolvía una lista de objetos de tipo Obra. Esto implicaba que se enviaban todos los atributos de la entidad, incluyendo relaciones con otras entidades como Artista, Sala y TipoObra. Para evitar esto, se modificó el método para que en lugar de devolver Obra devuelva una lista de ObraDTO. Antes de enviar la respuesta, cada objeto Obra se convierte en un ObraDTO, conservando solamente los campos necesarios: idObra, nombre, descripcion, epoca y nivelPopularidad. De esta manera se evita exponer información interna que no es necesaria para el cliente.
+El mismo cambio se aplicó en el endpoint GET /api/obras/{id}. En la versión original se devolvía directamente el objeto Obra obtenido desde el servicio. Luego de la modificación, el controller crea un objeto ObraDTO utilizando los datos principales de la obra y devuelve ese DTO como respuesta. Esto permite mantener el mismo criterio utilizado en el resto de los endpoints y asegurar que solo se envíe la información necesaria.
+También se realizaron cambios en los endpoints relacionados con los eventos. En el endpoint GET /api/eventos/{id}, inicialmente se devolvía la entidad Evento completa. Esto se reemplazó por un EventoDTO, que contiene únicamente los campos idEvento, nombre y descripcion. Para lograrlo, el controller obtiene el objeto Evento desde el servicio y luego genera un EventoDTO con los datos que se desean enviar en la respuesta.
+Finalmente, en el endpoint GET /api/eventos también se estaba devolviendo una lista de entidades Evento. Luego de la modificación, el método transforma cada objeto Evento en un EventoDTO y devuelve una lista de estos DTOs.
+El uso de DTOs permite separar la estructura de la API del modelo interno de la aplicación. Además, evita enviar información innecesaria al cliente y hace que las respuestas sean más claras y livianas. Esto mejora la organización del código y facilita el mantenimiento de la aplicación a futuro.
+
+
+5) CAMBIOS QUE HICIMOS EN LOS CONTROLLER: 
+En las clases se modificó la forma en la que se devuelven los errores cuando hay problemas con las fechas ingresadas. Antes, el código devolvía los errores utilizando headers HTTP, lo cual no es lo más claro para el cliente. Se cambió para que los errores se devuelvan utilizando la clase ErrorResponse (que fue creada por nosotros como un extra para manejar los mensajes de una manera más facil), que genera un mensaje en formato JSON. De esta manera, si el usuario envía una fecha con un formato incorrecto u ocurre algún error al procesar la consulta, el sistema responde con un HTTP 400 (Bad Request) y un mensaje explicando el problema.  Esto se hizo para evitar que se busque sobre un id que no existe o si el mensaje JSON enviado en un post está vacío. 
+
+PROMPTS DE IA
+
+
+Prompts puntos 1 y 2
+Usando Google Gemini: 
+1- Como levanto un programa de Springboot? Cuáles son los pasos para q me ande bien
+2- ¿Cuáles son las funciones para los controller, service, repository y model? Clasificalos a cada uno
+3- ¿Como y dónde veo donde se ubica cada ruta en Springboot y como se van llamando entre ellos en cada clase? 
+4- hace clase ticketdto con estos atributos, constructor getter y setter Usuario usuario, InformacionMuseo informacionMuseo, Evento evento, LocalDate fechaReserva, LocalTime horaReserva, Integer cantidadPersonas, EstadoTicket estado 
+5- para nombreusuario y nombreevento para reemplazar la clase entera, en la clase pondrias nombreusuario de tipo Usuario u otro?
+ 
+Usando ChatGPT:
+Punto 3:
+Aclaración: La mayoría de clases no use prompts porque las clases de por si ya usaban Hibernate de buena forma (y se ve en algunas clases por como están escritas
+ y los comentarios en // que usaron IA y ya estaban perfectas). También, en prompts mando partes del código, pero lo estoy obviando para que no queden tantos renglones.
+
+Clase Obra:
+
+Clase Notificación, Piso, Sala, Sección, Ticket, TipoObra:
+agrega los lazy que hacen falta en los manytoone y en lo q haga falta general
+
+Clase Usuario:
+Como funciona la jointable?
+
+
+Respuesta:
+En tu clase Usuario, el @JoinTable se usa para manejar la relación ManyToMany entre Usuario y Evento.
+1️⃣ Qué significa ManyToMany
+Esto quiere decir:
+    • un usuario puede participar en muchos eventos
+    • un evento puede tener muchos usuarios
+Como una base de datos no puede representar directamente muchos-a-muchos, Hibernate crea una tabla intermedia.
+
+
+Clases Membresia, InformacionMuseo, Artista, Evento, Estadistica:
+Sin uso de prompts (el uso de Hibernate ya era correcto)
+
+
+Punto 4:
+
+
+"Cómo usar DTO en un controller de Spring Boot"
+
+Respuesta:
+Un DTO (Data Transfer Object) en un controller de Spring Boot se usa para recibir o enviar datos sin exponer directamente la entidad del modelo.
+La idea es separar:
+    • Entidad (model) → representa la tabla en la base de datos
+    • DTO → representa los datos que viajan en la API
+
+
+"Como evito las entidades JPA en una API REST"
+
+Para evitar exponer entidades JPA en una API REST, en Spring Boot se usa normalmente el patrón DTO (Data Transfer Object). La idea es que la API no devuelva directamente las entidades de la base de datos, sino objetos diseñados solo para transportar datos.
+
+1️⃣ El problema de exponer entidades JPA
+Si un controller devuelve directamente una entidad:
+@GetMapping("/{id}")
+public Usuario obtener(@PathVariable Long id) {
+    return usuarioService.obtenerPorId(id);
+}
+pueden ocurrir varios problemas:
+se exponen datos sensibles
+se muestran relaciones innecesarias
+la API queda acoplada a la estructura de la base de datos
+
+"Cómo devolver un DTO en lugar de una entidad en Spring Boot"
+
+"Cómo mapear entidad a DTO en un endpoint GET"
+
+"Por qué usar DTO en APIs REST"
+
+Punto 5:
+encontre alguien que manejo el error con mensaje json usando try catch, no se si con error 404 o que pero queria saber si sirve, esta completo y si es asi adaptarlo a mi codigo
+
+https://stackoverflow.com/questions/61334371/how-to-return-an-error-message-in-json-text-when-my-simple-rest-get-fails
+
+Para el punto5, en el ErrorController nos inspiramos en este prompt de IA:
+💡 Tip profesional: si querés, podés hacer una clase ErrorResponse y devolver objetos de esa clase, queda más prolijo que usar Map.of(...) en todo el proyecto.
+Esto hace que todo el proyecto tenga mismo formato de error.
+
+
+como hago en spring boot para que si buscan un id que no existe devuelva 404 y no rompa todo?
+
+como puedo devolver un error en json desde un controller usando responseentity?
+
+como manejar cuando una fecha esta mal usando localdate.parse para que devuelva un 400?
