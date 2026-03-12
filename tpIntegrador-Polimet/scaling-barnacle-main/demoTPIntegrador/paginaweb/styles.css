@@ -1,0 +1,596 @@
+:root {
+    --color-dark: #0a0a0a;           /* Negro puro */
+    --color-bg-dark: #1E252B;        /* El fondo azul oscuro de "Experiencia" */
+    --color-gold: #D4AF37;           /* El dorado de los detalles */
+    --color-white: #ffffff;
+    --color-text-gray: #9CA3AF;
+    
+    /* Tipografías */
+    --font-serif: 'Playfair Display', serif; /* Para títulos elegantes */
+    --font-sans: 'Inter', sans-serif;        /* Para textos modernos */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-sans);
+    background-color: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* Utilitarios */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 20px; }
+.text-serif { font-family: var(--font-serif); }
+
+/* Botones */
+.btn-dark {
+    background-color: #2c3e50; /* Tono oscuro azulado */
+    color: white;
+    padding: 12px 32px;
+    border-radius: 4px; /* Bordes menos redondeados segun figma */
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.btn-dark:hover { background-color: #1a252f; }
+
+header {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    padding: 20px 0;
+    border-bottom: 1px solid #222;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Para el menú desplegable */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-family: var(--font-serif);
+    letter-spacing: 0.5px;
+}
+
+/* Icono del logo (simulación) */
+.logo-icon {
+    width: 35px; height: 35px;
+    border: 1px solid var(--color-gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: var(--color-gold);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.nav-menu a:hover { color: var(--color-gold); }
+
+/* Icono Usuario */
+.user-icon { font-size: 1.4rem; cursor: pointer; color: #fff; }
+
+/* Tick verde/blanco minimalista (del paso anterior) */
+.user-icon.logged-in { display: flex; align-items: center; gap: 10px; }
+.user-icon.logged-in::after {
+    content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900;
+    font-size: 0.8rem; color: #ffffff; background: transparent;
+}
+
+/* Menú Desplegable */
+.dropdown-menu {
+    position: absolute; top: 50px; right: 0;
+    background-color: #fff; width: 220px;
+    border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: all 0.2s ease; z-index: 1000;
+}
+.dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-menu ul li a {
+    display: block; padding: 15px 20px; color: #333;
+    font-size: 0.9rem; border-bottom: 1px solid #f5f5f5;
+}
+.dropdown-menu ul li a:hover { background-color: #f9f9f9; color: var(--color-gold); }
+
+/* =========================================
+   PAGINA: INICIO (INDEX)
+   ========================================= */
+.hero-home {
+    /* La imagen se pone inline en el HTML */
+    background-size: cover;
+    background-position: center 30%;
+    height: 85vh; /* Altura grande como el figma */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); /* Oscurecer un poco la foto */
+}
+
+.hero-content {
+    position: relative; z-index: 2;
+    color: white;
+    padding-left: 5%;
+    max-width: 650px;
+}
+.hero-content h1 {
+    font-family: var(--font-serif);
+    font-size: 4.5rem; /* Título muy grande */
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+.hero-content p {
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Caja Flotante Derecha (Bienvenidos...) */
+.hero-card-float {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 420px;
+    background-color: rgba(16, 16, 16, 0.92); /* Casi negro, semi transp */
+    padding: 40px;
+    color: white;
+    z-index: 3;
+}
+.hero-card-float h3 {
+    font-size: 1.2rem; margin-bottom: 10px; font-weight: 600;
+}
+.hero-card-float .horarios {
+    font-size: 0.85rem; color: #bbb; margin-bottom: 25px; line-height: 1.6;
+}
+.btn-hero {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 10px 15px;
+    font-size: 0.8rem; margin-bottom: 10px;
+    border-radius: 30px; /* Botones redondos */
+    transition: 0.3s; cursor: pointer; text-decoration: none;
+}
+.btn-hero:hover { background: rgba(255,255,255,0.2); }
+
+/* Sección: Lo más destacado */
+.section-title-box { padding: 60px 0; }
+.section-title-box h2 {
+    font-family: var(--font-sans);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Sección: Experiencia Oscura */
+.dark-section {
+    background-color: var(--color-bg-dark); /* Gris azulado */
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+.dark-lead {
+    font-size: 1.8rem;
+    font-weight: 300;
+    max-width: 900px;
+    margin: 0 auto 80px auto;
+    line-height: 1.4;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.gallery-item {
+    position: relative;
+    height: 400px; /* Fotos altas */
+    overflow: hidden;
+}
+.gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s;
+}
+.gallery-item:hover img { transform: scale(1.05); }
+.gallery-label {
+    position: absolute; bottom: 30px; left: 0; right: 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    width: fit-content; margin: 0 auto;
+    padding-bottom: 5px;
+}
+
+/* Sección: Membresías */
+.membership-section {
+    padding: 100px 0;
+    text-align: center;
+    background: #fff;
+}
+.membership-section h2 { font-size: 2.2rem; margin-bottom: 20px; color: #000; font-weight: 700; line-height: 1.2; }
+.membership-section p { color: #555; max-width: 700px; margin: 0 auto 60px auto; }
+
+.stamps-row {
+    display: flex; justify-content: center; gap: 60px; margin-bottom: 60px;
+    align-items: center; flex-wrap: wrap;
+}
+.stamp-img {
+    width: 180px; height: 180px;
+    object-fit: contain; /* Para que el PNG del sello no se deforme */
+    opacity: 0.9;
+    transition: transform 0.3s;
+}
+.stamp-img:hover { transform: rotate(10deg) scale(1.1); }
+
+/* Sección: Reseñas */
+.reviews-section {
+    padding: 80px 0 120px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 80px;
+}
+.review-content { flex: 1; }
+.review-content h2 { font-size: 2.5rem; line-height: 1.2; margin-bottom: 30px; font-weight: 600; }
+.review-content p { color: #444; margin-bottom: 30px; font-size: 1.1rem; }
+
+.review-card {
+    flex: 0 0 350px;
+    text-align: left;
+}
+.review-card img { width: 100%; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.review-card h3 { margin-top: 15px; font-family: var(--font-serif); font-size: 1.4rem; }
+.stars { color: var(--color-gold); margin: 10px 0; font-size: 0.9rem; }
+
+/* =========================================
+   PAGINA: OBRAS (EXPLORA)
+   ========================================= */
+.hero-obras {
+    /* Imagen inline */
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.hero-obras h1 {
+    position: relative; z-index: 2;
+    color: white; font-family: var(--font-serif);
+    font-size: 3.5rem; text-align: center; max-width: 900px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+.modalidad-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr 1fr; /* Texto izquierda, 2 fotos derecha */
+    gap: 30px;
+    padding: 100px 0;
+    align-items: flex-start;
+}
+.modalidad-text h2 { font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+.modalidad-card { position: relative; height: 500px; }
+.modalidad-card img { width: 100%; height: 100%; object-fit: cover; }
+.modalidad-label {
+    position: absolute; bottom: 40px; left: 0; right: 0;
+    text-align: center; color: white; font-weight: 600; letter-spacing: 1px;
+}
+
+/* Sección: Mas Populares */
+.popular-list { padding-bottom: 100px; max-width: 1000px; margin: 0 auto; }
+.popular-header { margin-bottom: 40px; }
+.popular-header h2 { font-size: 2rem; margin-bottom: 10px; }
+.divider-line { width: 100%; height: 2px; background: #000; }
+
+.popular-item {
+    display: flex; gap: 40px; margin-bottom: 80px;
+}
+.popular-item img {
+    width: 320px; height: 400px; object-fit: cover;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
+}
+.popular-info { padding-top: 20px; }
+.popular-info h3 { font-size: 1.8rem; margin-bottom: 5px; font-weight: 600; }
+.popular-info .author { display: block; font-weight: 500; margin-bottom: 25px; color: #555; }
+.popular-info p { font-size: 1rem; color: #444; line-height: 1.7; }
+
+/* Footer */
+footer { background-color: #000; color: #fff; padding-top: 80px; }
+.footer-bottom {
+    background-color: var(--color-gold); /* La franja dorada abajo */
+    color: #4a3b00; padding: 20px; text-align: center; font-weight: 600; font-size: 0.8rem;
+}
+
+/* Estilos de errores form (para mantener signup funcionando) */
+.form-group.error input { border: 1px solid #ef4444; }
+.error-message { color: #ef4444; font-size: 0.8rem; display: none; }
+.form-group.error .error-message { display: block; }
+
+/* Restauracion de estilos especificos para Signup */
+.signup-section {
+    background-color: #fff;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+}
+
+.signup-title { text-align: center; margin-bottom: 25px; }
+.signup-title h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; color: #000; font-family: var(--font-sans); }
+.signup-title p { color: #666; font-size: 0.9rem; }
+
+.signup-card {
+    background-color: #121212; /* Fondo negro */
+    padding: 40px;
+    border-radius: 30px; /* Bordes muy redondeados */
+    color: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.signup-card .form-group label { color: white; margin-bottom: 8px; display: block; font-weight: 500; }
+
+.signup-card .input-wrapper { position: relative; }
+
+.signup-card input {
+    width: 100%;
+    padding: 12px 12px 12px 45px; /* Espacio para icono */
+    border-radius: 20px;
+    border: none;
+    background-color: #fff;
+    color: #333;
+    outline: none;
+    font-size: 0.95rem;
+    height: 45px;
+}
+
+/* Iconos dentro de los inputs (gris oscuro) */
+.signup-card .input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    z-index: 10;
+    font-size: 1rem;
+}
+
+.btn-create {
+    width: auto;
+    min-width: 200px;
+    margin: 30px auto 10px auto;
+    display: block;
+    background: linear-gradient(to bottom, #2c3e50, #1a252f);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.login-link { text-align: center; margin-top: 15px; font-size: 0.85rem; color: #ccc; }
+.login-link a { color: var(--color-gold); font-weight: 700; }
+
+/* Estilos Pagina Membresias */
+.membresia-header {
+    text-align: center;
+    padding: 60px 20px 40px 20px;
+}
+.membresia-header h1 {
+    font-family: var(--font-sans);
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.membresia-header p { color: #666; font-size: 1rem; }
+
+.pricing-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding-bottom: 100px;
+    align-items: stretch; /* Para que tengan la misma altura */
+}
+
+.pricing-card {
+    background-color: #1e252b; /* El azul oscuro de tu diseño */
+    color: white;
+    border-radius: 15px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.pricing-card:hover { transform: translateY(-5px); }
+
+/* Encabezado de la tarjeta */
+.card-header { text-align: center; margin-bottom: 20px; }
+.card-header h2 { font-size: 2rem; font-weight: 600; margin-bottom: 5px; }
+.card-header .price { font-size: 1.2rem; font-weight: 400; opacity: 0.9; }
+
+/* Linea divisoria fina */
+.pricing-card .divider {
+    height: 1px;
+    background-color: rgba(255,255,255,0.2);
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.pricing-card.exclusive {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    position: relative; /* Necesario para que la franja se posicione bien */
+    margin-top: 0;
+    border: 1px solid transparent; /* Evita bordes raros */
+}
+
+/* Lista de beneficios */
+.features-list { flex: 1;
+    margin-bottom: 30px; }
+.features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+.features-list li i {
+    color: #fff; /* Tilde blanca */
+    margin-top: 4px;
+    font-size: 0.8rem;
+}
+
+/* Botones de las tarjetas */
+.card-footer { text-align: center; }
+
+.btn-outline-card {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+.btn-outline-card:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+.btn-outline-card {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.btn-outline-card:hover {
+    background-color: var(--color-gold); /* Fondo Dorado */
+    border-color: var(--color-gold);     /* Borde Dorado */
+    color: #1e252b;                      /* Texto Oscuro (para leerse bien) */
+    transform: translateY(-3px);         /* Se levanta un poquito */
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); /* Sombra brillante dorada */
+}
+
+/* 2. Botón Relleno (Exclusive) */
+.btn-gold-card {
+    background-color: var(--color-gold);
+    border: none;
+    color: #1e252b; /* Texto oscuro */
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-gold-card:hover {
+    background-color: #ebd174;   /* Un dorado más brillante */
+    color: #000;                 /* Texto negro puro */
+    transform: scale(1.05);      /* Crece un 5% */
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.7); /* Mucho brillo */
+}
+
+.btn-current {
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    color: #1e252b; /* Texto oscuro para contraste */
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: default; /* Cursor normal porque ya lo tenés */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-current:hover {
+    background-color: #f0f0f0; /* Un gris muy clarito */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+}
+
+.btn-buy {
+    background-color: var(--color-gold);
+    border: none;
+    color: #1e252b; /* Texto oscuro */
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+ 
+.btn-buy:hover {
+    background-color: #ebd174;   /* Dorado más claro */
+    color: #000;                 /* Negro puro */
+    transform: scale(1.05);      /* Crece un poco */
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); /* Resplandor dorado */
+}
+
+.popular-banner {
+    position: absolute;
+    top: -30px; /* La subimos exactamente su altura */
+    left: 0;
+    right: 0;
+    height: 30px;
+    background-color: var(--color-gold);
+    color: #1e252b; /* Texto oscuro */
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: 1;
+}

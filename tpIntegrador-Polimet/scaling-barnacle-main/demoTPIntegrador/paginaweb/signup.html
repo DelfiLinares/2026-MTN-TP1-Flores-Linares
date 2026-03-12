@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliMet - Registro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo"><i class="fa-solid fa-landmark"></i> PoliMet</a>
+            <nav class="nav-menu">
+                <a href="#">Reseñas</a>
+                <a href="obrasyvisitas.html">Explora</a>
+                <a href="#">Exposiciones</a>
+                <a href="#">Eventos</a>
+                <a href="#">Entradas</a>
+            </nav>
+            <a href="signup.html" class="user-icon"><i class="fa-regular fa-user"></i></a>
+        </div>
+    </header>
+
+    <section class="signup-section">
+        <div class="signup-container">
+            <div class="signup-title">
+                <h1>REGISTRARSE</h1>
+                <p>Ingresa tus datos para crear tu cuenta</p>
+            </div>
+
+            <form class="signup-card" id="registroForm">
+                
+                <div class="form-group" id="group-email">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at"></i>
+                        <input type="email" id="email" placeholder="ejemplo@mail.com">
+                    </div>
+                    <small class="error-message">Error en el email</small>
+                </div>
+
+                <div class="form-group" id="group-password">
+                    <label>Contraseña</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Min. 8 caracteres">
+                        <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer; color: #666;"></i>
+                    </div>
+                    <small class="error-message">Error en la contraseña</small>
+                </div>
+
+                <div class="form-group" id="group-telefono">
+                    <label>Telefono</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-plus"></i>
+                        <input type="tel" id="telefono" placeholder="111 1234-5678" maxlength="13">
+                    </div>
+                    <small class="error-message">Error en el teléfono</small>
+                </div>
+
+                <div class="form-group" id="group-fecha">
+                    <label>Fecha de nacimiento</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="text" id="fechaNacimiento" placeholder="dd-mm-YYYY" maxlength="10">
+                    </div>
+                    <small class="error-message">Error en la fecha</small>
+                </div>
+
+                <div class="form-group" id="group-pais">
+                    <label>Pais</label>
+                    <div class="input-wrapper">
+                        <!-- Icono de globo terráqueo opcional, o padding -->
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <input type="text" id="pais" placeholder="Tu país" maxlength="20">
+                    </div>
+                    <small class="error-message">Error en el país</small>
+                </div>
+
+                <button type="submit" class="btn-create">CREAR CUENTA</button>
+                
+                <div class="login-link">
+                    Ya tienes cuenta? <a href="login.html">Iniciar sesion</a>
+                </div>
+            
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="display: flex; justify-content: space-between; padding-bottom: 50px;">
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Contacto</h4>
+                <p style="color:#aaa; font-size:0.9rem;">polimetadmin@example.com</p>
+                <p style="color:#aaa; font-size:0.9rem;">+5491178229110</p>
+                <p style="color:#aaa; font-size:0.9rem;">Santo Tome 3215 6B</p>
+            </div>
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Nosotros</h4>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Acerca de</a></p>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Terminos y condiciones</a></p>
+            </div>
+            <div style="flex:1; text-align:right; font-family: 'Playfair Display'; font-size: 1.5rem;">
+                <i class="fa-solid fa-landmark"></i> PoliMet
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 PoliMet. Todos los derechos reservados
+        </div>
+    </footer>
+
+    <script>
+        const BASE_URL = 'http://localhost:8080';
+        const form = document.getElementById('registroForm');
+        const emailInput = document.getElementById('email');
+        const passInput = document.getElementById('password');
+        const togglePass = document.getElementById('togglePassword');
+        const telInput = document.getElementById('telefono');
+        const fechaInput = document.getElementById('fechaNacimiento');
+        const paisInput = document.getElementById('pais');
+        
+        async function registrarUsuario(usuarioData) {
+            try {
+                const response = await fetch(`${BASE_URL}/api/usuarios`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(usuarioData),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Registro fallido.`);
+                }
+
+                const usuarioRegistrado = await response.json();
+
+                localStorage.setItem('usuarioRegistrado', 'true');
+                localStorage.setItem('idUsuario', usuarioRegistrado.idUsuario);
+                window.location.href = 'index.html';
+
+            } catch (error) {
+                console.error("Error en el registro:", error.message);
+                alert("Error al crear la cuenta. Verifique que el email no esté ya registrado.");
+            }
+        }
+
+        telInput.addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, ''); 
+            if (valor.length > 11) valor = valor.substring(0, 11);
+            
+            if (valor.length > 7) {
+                this.value = valor.slice(0, 3) + ' ' + valor.slice(3, 7) + '-' + valor.slice(7);
+            } else if (valor.length > 3) {
+                this.value = valor.slice(0, 3) + ' ' + valor.slice(3);
+            } else {
+                this.value = valor;
+            }
+        });
+
+        fechaInput.addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 8) valor = valor.substring(0, 8);
+            if (valor.length > 4) {
+                this.value = valor.slice(0, 2) + '-' + valor.slice(2, 4) + '-' + valor.slice(4);
+            } else if (valor.length > 2) {
+                this.value = valor.slice(0, 2) + '-' + valor.slice(2);
+            } else {
+                this.value = valor;
+            }
+        });
+
+        paisInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+
+        togglePass.addEventListener('click', function () {
+            const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        function mostrarError(input, mensaje) {
+            const formGroup = input.parentElement.parentElement; 
+            const small = formGroup.querySelector('.error-message');
+            small.innerText = mensaje;
+            formGroup.classList.add('error');
+        }
+
+        function limpiarError(input) {
+            const formGroup = input.parentElement.parentElement;
+            formGroup.classList.remove('error');
+        }
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            let esValido = true;
+
+            if(emailInput.value.trim() === '') {
+                mostrarError(emailInput, 'El email es obligatorio');
+                esValido = false;
+            } else if (!validarEmail(emailInput.value)) {
+                mostrarError(emailInput, 'Formato de email incorrecto');
+                esValido = false;
+            } else {
+                limpiarError(emailInput);
+            }
+
+            if(passInput.value.length < 8) {
+                mostrarError(passInput, 'La contraseña debe tener al menos 8 caracteres');
+                esValido = false;
+            } else {
+                limpiarError(passInput);
+            }
+
+            if(telInput.value.length < 13) {
+                mostrarError(telInput, 'Complete el teléfono (cód + número)');
+                esValido = false;
+            } else {
+                limpiarError(telInput);
+            }
+
+            if(paisInput.value.trim() === '') {
+                mostrarError(paisInput, 'El país es obligatorio');
+                esValido = false;
+            } else if (paisInput.value.length > 20) {
+                mostrarError(paisInput, 'Máximo 20 caracteres');
+                esValido = false;
+            } else {
+                limpiarError(paisInput);
+            }
+
+            const fechaStr = fechaInput.value;
+            let anio, mes, dia;
+            if(fechaStr.length !== 10) {
+                mostrarError(fechaInput, 'Complete la fecha dd-mm-YYYY');
+                esValido = false;
+            } else {
+                [dia, mes, anio] = fechaStr.split('-').map(Number);
+                const fechaObj = new Date(anio, mes - 1, dia); 
+
+                if (anio < 1900) {
+                    mostrarError(fechaInput, 'El año no puede ser menor a 1900');
+                    esValido = false;
+                } else if (mes < 1 || mes > 12) {
+                    mostrarError(fechaInput, 'Mes incorrecto (1-12)');
+                    esValido = false;
+                } else if (
+                    fechaObj.getFullYear() !== anio ||
+                    fechaObj.getMonth() !== mes - 1 ||
+                    fechaObj.getDate() !== dia
+                ) {
+                    mostrarError(fechaInput, 'Día inválido para ese mes');
+                    esValido = false;
+                } else {
+                    limpiarError(fechaInput);
+                }
+            }
+
+
+            if(esValido) {
+                const email = emailInput.value.trim();
+                const telefonoLimpio = telInput.value.replace(/\D/g, '');
+
+                const usuario = {
+                    nombre: email.split('@')[0].substring(0, 15), 
+                    email: email,
+                    password: passInput.value,
+                    pais: paisInput.value.trim(),
+                    telefono: Number(telefonoLimpio),
+                    fechaNacimiento: `${anio}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`,
+                };
+
+                registrarUsuario(usuario);
+            }
+            btnLogout.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuarioRegistrado');
+                localStorage.removeItem('idUsuario');
+                localStorage.removeItem('nombreUsuario'); 
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

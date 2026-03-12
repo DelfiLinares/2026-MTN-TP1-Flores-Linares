@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliMet - Museo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
+                PoliMet
+            </a>
+            <nav class="nav-menu">
+                <a href="#">Reseñas</a>
+                <a href="obrasyvisitas.html">Explora</a>
+                <a href="#">Exposiciones</a>
+                <a href="#">Eventos</a>
+                <a href="#">Entradas</a>
+            </nav>
+            <a href="signup.html" class="user-icon"><i class="fa-regular fa-user"></i></a>
+        </div>
+    </header>
+
+    <section class="hero-home" id="hero-home" style="background-image: url('');">
+        <div class="hero-overlay"></div> <div class="hero-content">
+            <h1>Museo Polimet</h1>
+            <p id="museum-description">Cargando descripción...</p>
+        </div>
+
+        <div class="hero-card-float">
+            <h3>Bienvenidos al Museo PoliMet</h3>
+            <div id="museum-hours" class="horarios">
+                Cargando horarios...
+            </div>
+
+            <div id="featured-event">
+                </div>
+
+            <a href="signup.html" class="btn-hero"><i class="fa-solid fa-ticket"></i> Reserva tu entrada</a>
+            <a href="#" class="btn-hero"><i class="fa-solid fa-circle-info"></i> Organiza tu visita</a>
+        </div>
+    </section>
+
+    <div class="container section-title-box">
+        <h2>Lo mas destacado</h2>
+    </div>
+
+    <section class="dark-section">
+        <div class="container">
+            <p class="dark-lead">
+                Cada sección ofrece una experiencia distinta para explorar el arte, la historia y la cultura. Te invitamos a recorrerlas y descubrir todo lo que tenemos para vos.
+            </p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/2Xy5s6Q.jpg" alt="Visitas">
+                    <div class="gallery-label">Visitas Guiadas</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/1Zp7Qc9.jpg" alt="Eventos">
+                    <div class="gallery-label">Eventos</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.imgur.com/Yh859mS.jpg" alt="Obras">
+                    <div class="gallery-label">Obras</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="membership-section container">
+        <h2>Hay puertas que solo se abren para solo<br>para nuestros miembros</h2>
+        <p>El museo guarda secretos en cada rincón ¿Que hay detras de esa sala cerrada? Nuestras membresias son la llave maestra.</p>
+
+        <div class="stamps-row">
+            <img src="https://i.imgur.com/vH9Yk1S.png" class="stamp-img" alt="Estandar">
+            <img src="https://i.imgur.com/T0b4VqA.png" class="stamp-img" alt="Premium">
+            <img src="https://i.imgur.com/9C0xV6X.png" class="stamp-img" alt="Gold">
+        </div>
+
+        <button class="btn-dark" onclick="window.location.href='membresias.html'">MEMBRESIAS <span style="font-size: 0.7rem; display:block; font-weight:400; margin-top:5px; text-transform:none;">Ver membresias</span></button>
+    </section>
+
+    <section class="container reviews-section">
+        <div class="review-content">
+            <h2>Crea tu propia reseña y cuéntanos tu experiencia</h2>
+            <p>Cada espectador vive una experiencia distinta frente al arte. Tal vez te conmovió una escena, te sorprendió una actuación.</p>
+            <p>¿Qué fue lo que más te impactó o te dejó pensando?</p>
+            
+            <button class="btn-dark" style="margin-top: 20px;">CREA TU RESEÑA</button>
+        </div>
+
+        <div class="review-card">
+            <img src="https://i.imgur.com/0P6sV0Z.jpg" alt="Reseña">
+            <div class="stars">★★★★★</div>
+            <h3>Figura de mujer</h3>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Ayer por fin pude ver la "Figura de mujer"... ¡wow! Es simplemente espectacular.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="display: flex; justify-content: space-between; padding-bottom: 50px;">
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Contacto</h4>
+                <p style="color:#aaa; font-size:0.9rem;">polimetadmin@example.com</p>
+                <p style="color:#aaa; font-size:0.9rem;">+5491178229110</p>
+                <p style="color:#aaa; font-size:0.9rem;">Santo Tome 3215 6B</p>
+            </div>
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Nosotros</h4>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Acerca de</a></p>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Terminos y condiciones</a></p>
+            </div>
+            <div style="flex:1; text-align:right; font-family: 'Playfair Display'; font-size: 1.5rem;">
+                <i class="fa-solid fa-landmark"></i> PoliMet
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 PoliMet. Todos los derechos reservados
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        async function fetchHomeData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/home`);
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
+
+                const data = await response.json();
+                
+                document.getElementById('hero-home').style.backgroundImage = `url('${data.fotos}')`;
+                document.getElementById('museum-description').textContent = data.descripcion;
+
+                const hoursHtml = data.horarios.replace(/\n/g, '<br>');
+                document.getElementById('museum-hours').innerHTML = hoursHtml;
+
+                const featuredEventContainer = document.getElementById('featured-event');
+                if (data.eventoDestacado) {
+                    const event = data.eventoDestacado;
+                    featuredEventContainer.innerHTML = `
+                        <a href="#" class="btn-hero" style="background-color: #D4AF37; color: #121212;">
+                            <i class="fa-solid fa-star"></i> 
+                            ${event.nombre}
+                        </a>
+                        <p style="font-size: 0.9rem; color: #ccc; margin-top: -10px; margin-bottom: 10px;">${event.descripcion}</p>
+                    `;
+                } else {
+                    featuredEventContainer.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error("Error al cargar datos de la Home:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Carga de datos de la API
+            fetchHomeData();
+
+            const usuarioRegistrado = localStorage.getItem('usuarioRegistrado') === 'true';
+            const userIcon = document.querySelector('.user-icon');
+            const headerContainer = document.querySelector('.header-inner');
+
+            if (userIcon && usuarioRegistrado) {
+                userIcon.classList.add('logged-in');
+                userIcon.setAttribute('href', '#');
+                userIcon.setAttribute('title', 'Sesión iniciada: ' + (localStorage.getItem('nombreUsuario') || 'Usuario'));
+
+                const dropdownHTML = `
+                    <div class="dropdown-menu" id="userDropdown">
+                        <ul>
+                            <li><a href="#"><i class="fa-regular fa-user"></i> Perfil</a></li>
+                            <li><a href="#"><i class="fa-solid fa-gear"></i> Configuración</a></li>
+                            <li><a href="membresias.html"><i class="fa-solid fa-crown"></i> Membresías</a></li>
+                            <li><a href="#" id="btnLogout" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                `;
+                headerContainer.insertAdjacentHTML('beforeend', dropdownHTML);
+
+                const dropdown = document.getElementById('userDropdown');
+                const btnLogout = document.getElementById('btnLogout');
+
+                userIcon.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+
+                btnLogout.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('usuarioRegistrado');
+                    localStorage.removeItem('idUsuario');
+                    localStorage.removeItem('nombreUsuario');
+                    window.location.reload();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

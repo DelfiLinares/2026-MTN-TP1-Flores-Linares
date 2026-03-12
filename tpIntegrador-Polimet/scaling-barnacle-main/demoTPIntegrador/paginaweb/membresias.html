@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliMet - Membresías</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
+                PoliMet
+            </a>
+            <nav class="nav-menu">
+                <a href="#">Reseñas</a>
+                <a href="obrasyvisitas.html">Explora</a>
+                <a href="#">Exposiciones</a>
+                <a href="#">Eventos</a>
+                <a href="#">Entradas</a>
+            </nav>
+            <a href="signup.html" class="user-icon"><i class="fa-regular fa-user"></i></a>
+        </div>
+    </header>
+
+    <section class="membresia-header">
+        <h1>MEMBRESIAS</h1>
+        <p>Hacete de una membresia para obtener beneficios unicos</p>
+    </section>
+
+    <section class="container pricing-section">
+        
+        <div class="pricing-card">
+            <div class="card-header">
+                <h2>Standart</h2>
+                <span class="price">Gratis</span>
+            </div>
+            <div class="divider"></div>
+            <ul class="features-list">
+                <li><i class="fa-solid fa-check"></i> Acceso al primer piso</li>
+                <li><i class="fa-solid fa-check"></i> Acceso a exposiciones permanentes</li>
+                <li><i class="fa-solid fa-check"></i> 1 voto por visita para la obra favorita</li>
+            </ul>
+            <div class="card-footer">
+                <button class="btn-current">PLAN ACTUAL</button>
+            </div>
+        </div>
+
+        <div class="pricing-card">
+            <div class="card-header">
+                <h2>Premium</h2>
+                <span class="price">999,99/mes</span>
+            </div>
+            <div class="divider"></div>
+            <ul class="features-list">
+                <li><i class="fa-solid fa-check"></i> Acceso al primer piso y al segundo piso</li>
+                <li><i class="fa-solid fa-check"></i> Exposiciones temporales incluidas</li>
+                <li><i class="fa-solid fa-check"></i> Descuento del 10% en la tienda del museo</li>
+                <li><i class="fa-solid fa-check"></i> Visita guiada estándar</li>
+            </ul>
+            <div class="card-footer">
+                <button class="btn-buy">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="pricing-card exclusive">
+            <div class="popular-banner">Mas popular</div>
+            <div class="card-header">
+                <h2>Exclusive</h2>
+                <span class="price">1999,99/mes</span>
+            </div>
+            <div class="divider"></div>
+            <ul class="features-list">
+                <li><i class="fa-solid fa-check"></i> Acceso a todos los pisos</li>
+                <li><i class="fa-solid fa-check"></i> Eventos exclusivos</li>
+                <li><i class="fa-solid fa-check"></i> Visitas guiadas VIP</li>
+                <li><i class="fa-solid fa-check"></i> Prioridad en colas y reservas</li>
+                <li><i class="fa-solid fa-check"></i> Descuento del 20% en la tienda del museo</li>
+                <li><i class="fa-solid fa-check"></i> Regalo de bienvenida</li>
+            </ul>
+            <div class="card-footer">
+                <button class="btn-buy">COMPRAR</button>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="container" style="display: flex; justify-content: space-between; padding-bottom: 50px;">
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Contacto</h4>
+                <p style="color:#aaa; font-size:0.9rem;">polimetadmin@example.com</p>
+                <p style="color:#aaa; font-size:0.9rem;">+5491178229110</p>
+                <p style="color:#aaa; font-size:0.9rem;">Santo Tome 3215 6B</p>
+            </div>
+            <div style="flex:1">
+                <h4 style="margin-bottom:20px;">Nosotros</h4>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Acerca de</a></p>
+                <p><a href="#" style="color:#aaa; font-size:0.9rem;">Terminos y condiciones</a></p>
+            </div>
+            <div style="flex:1; text-align:right; font-family: 'Playfair Display'; font-size: 1.5rem;">
+                <i class="fa-solid fa-landmark"></i> PoliMet
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 PoliMet. Todos los derechos reservados
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const usuarioRegistrado = localStorage.getItem('usuarioRegistrado') === 'true';
+            const userIcon = document.querySelector('.user-icon');
+            const headerContainer = document.querySelector('.header-inner');
+
+            if (userIcon && usuarioRegistrado) {
+                userIcon.classList.add('logged-in');
+                userIcon.setAttribute('href', '#');
+
+                const dropdownHTML = `
+                    <div class="dropdown-menu" id="userDropdown">
+                        <ul>
+                            <li><a href="#"><i class="fa-regular fa-user"></i> Perfil</a></li>
+                            <li><a href="#"><i class="fa-solid fa-gear"></i> Configuración</a></li>
+                            <li><a href="membresias.html"><i class="fa-solid fa-crown"></i> Membresías</a></li>
+                            <li><a href="#" id="btnLogout" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                `;
+                headerContainer.insertAdjacentHTML('beforeend', dropdownHTML);
+
+                const dropdown = document.getElementById('userDropdown');
+                const btnLogout = document.getElementById('btnLogout');
+
+                userIcon.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+
+                btnLogout.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('usuarioRegistrado');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

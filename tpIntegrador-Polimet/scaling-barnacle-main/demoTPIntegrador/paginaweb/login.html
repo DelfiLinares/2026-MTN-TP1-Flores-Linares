@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliMet - Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo"><i class="fa-solid fa-landmark"></i> PoliMet</a>
+            <nav class="nav-menu">
+                <a href="#">Reseñas</a>
+                <a href="obrasyvisitas.html">Explora</a>
+                <a href="#">Exposiciones</a>
+                <a href="#">Eventos</a>
+                <a href="#">Entradas</a>
+            </nav>
+            <a href="signup.html" class="user-icon"><i class="fa-regular fa-user"></i></a>
+        </div>
+    </header>
+
+    <section class="signup-section">
+        <div class="signup-container">
+            <div class="signup-title">
+                <h1>INICIAR SESIÓN</h1>
+                <p>Ingresa tus credenciales</p>
+            </div>
+
+            <form class="signup-card" id="loginForm">
+                
+                <div class="form-group" id="group-email">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at"></i>
+                        <input type="email" id="email" placeholder="ejemplo@mail.com">
+                    </div>
+                    <small class="error-message" id="email-error">Error en el email</small>
+                </div>
+
+                <div class="form-group" id="group-password">
+                    <label>Contraseña</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Contraseña">
+                        <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer; color: #666;"></i>
+                    </div>
+                    <small class="error-message" id="password-error">Error en la contraseña</small>
+                </div>
+
+                <div class="form-group" id="group-general-error" style="display: none; margin-top: 15px; background: #c0392b; padding: 10px; border-radius: 4px; color: white;">
+                    <small class="error-message" style="display: block; color: white;" id="general-error-message">Credenciales incorrectas.</small>
+                </div>
+
+
+                <button type="submit" class="btn-create">INICIAR SESIÓN</button>
+                
+                <div class="login-link">
+                    No tienes cuenta? <a href="signup.html">Registrarse</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <a href="#">polimetadmin@example.com</a>
+                <p>+5491178229110</p>
+            </div>
+            <div class="footer-col">
+                <h4>Nosotros</h4>
+                <a href="#">Acerca de</a>
+            </div>
+            <div class="footer-col"><div class="logo"><i class="fa-solid fa-landmark"></i> PoliMet</div></div>
+        </div>
+        <div class="footer-bottom">© 2025 PoliMet. Todos los derechos reservados</div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passInput = document.getElementById('password');
+        const togglePass = document.getElementById('togglePassword');
+        const generalErrorDiv = document.getElementById('group-general-error');
+        const generalErrorMessage = document.getElementById('general-error-message');
+
+        togglePass.addEventListener('click', function () {
+            const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        function mostrarError(input, mensaje, isGeneral = false) {
+            if (isGeneral) {
+                generalErrorMessage.innerText = mensaje;
+                generalErrorDiv.style.display = 'block';
+            } else {
+                const formGroup = input.parentElement.parentElement;
+                const small = formGroup.querySelector('.error-message');
+                small.innerText = mensaje;
+                formGroup.classList.add('error');
+            }
+        }
+
+        function limpiarError(input, isGeneral = false) {
+            if (isGeneral) {
+                generalErrorDiv.style.display = 'none';
+            } else {
+                const formGroup = input.parentElement.parentElement;
+                formGroup.classList.remove('error');
+            }
+        }
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        async function intentarLogin(email, password) {
+            limpiarError(null, true);
+            
+            const URL_BASE = 'http://localhost:8080/api/usuarios/login';
+            
+            try {
+                const response = await fetch(URL_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email, password: password })
+                });
+
+                if (response.ok) {
+                    const usuario = await response.json();
+                    
+                    localStorage.setItem('usuarioRegistrado', 'true');
+                    localStorage.setItem('idUsuario', usuario.idUsuario);
+                    localStorage.setItem('nombreUsuario', usuario.nombre);
+                    
+                    window.location.href = 'index.html'; 
+
+                } else if (response.status === 401) {
+                    mostrarError(null, 'Email o contraseña incorrectos.', true);
+                } else {
+                    const errorHeader = response.headers.get("Error") || `Error del servidor (${response.status})`;
+                    mostrarError(null, errorHeader, true);
+                }
+
+            } catch (error) {
+                mostrarError(null, 'Error de conexión. Asegúrate que la API esté corriendo.', true);
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            let esValido = true;
+            const email = emailInput.value.trim();
+            const password = passInput.value;
+
+            if(email === '') {
+                mostrarError(emailInput, 'El email es obligatorio');
+                esValido = false;
+            } else if (!validarEmail(email)) {
+                mostrarError(emailInput, 'Formato de email incorrecto');
+                esValido = false;
+            } else {
+                limpiarError(emailInput);
+            }
+
+            if(password.length < 1) {
+                mostrarError(passInput, 'La contraseña es obligatoria');
+                esValido = false;
+            } else {
+                limpiarError(passInput);
+            }
+
+            if(esValido) {
+                intentarLogin(email, password);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const usuarioRegistrado = localStorage.getItem('usuarioRegistrado') === 'true';
+            const userIcon = document.querySelector('.user-icon');
+            const headerContainer = document.querySelector('.header-inner');
+
+            if (userIcon && usuarioRegistrado) {
+                userIcon.classList.add('logged-in');
+                userIcon.setAttribute('href', '#');
+
+                const dropdownHTML = `
+                    <div class="dropdown-menu" id="userDropdown">
+                        <ul>
+                            <li><a href="#"><i class="fa-regular fa-user"></i> Perfil</a></li>
+                            <li><a href="#"><i class="fa-solid fa-gear"></i> Configuración</a></li>
+                            <li><a href="membresias.html"><i class="fa-solid fa-crown"></i> Membresías</a></li>
+                            <li><a href="#" id="btnLogout" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                `;
+                headerContainer.insertAdjacentHTML('beforeend', dropdownHTML);
+
+                const dropdown = document.getElementById('userDropdown');
+                const btnLogout = document.getElementById('btnLogout');
+
+                userIcon.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+
+                btnLogout.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('usuarioRegistrado');
+                    localStorage.removeItem('idUsuario');
+                    localStorage.removeItem('nombreUsuario');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
